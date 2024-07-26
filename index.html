@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDIX Scanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <center><h1>BDIX Scanner</h1>
+<h3 style="font-size: 13px;">Get the list of possible available BDIX server from your ISP</h3>
+    <div id="loading-bar"></div>
+    <div id="progressValue">0%</div>
+    <div id="currentUrl"></div>
+    <div style="margin-top: 14px;">
+        Request Timeout: <input type="number" value="5" id="timeOutValue"> sec.
+    </div>
+    <div style="margin-top: 10px;">
+        <label for="autoscroll">Autoscroll:</label>
+        <input type="checkbox" id="autoscroll" checked>
+        <!-- Set to checked by default -->
+        <button id="startStopBtn" onclick="startScanning()">Start</button>
+        <button id="resetBtn" onclick="resetScanning()">Reset</button>
+        <span id="elapsedTime">00:00:00</span>
+    </div>
+    <div style="margin-top: 10px;">
+        <label for="serverList">Select Server List:</label>
+        <select id="serverList">
+            <!-- Options will be populated here -->
+        </select>
+    </div>
+    <div style="width: 49%; display: inline-block;">
+        <ul id="urlList" style="overflow: scroll; height: 35em; border: 1px solid; overflow-x: auto;">
+            <!-- URLs will be populated here -->
+        </ul>
+    </div>
+    <div style="width: 49%; display: inline-block;">
+        <ul id="urlList2" style="overflow: scroll; height: 35em; border: 1px solid; overflow-x: auto;">
+            <!-- URLs will be populated here -->
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</center>
+</body> 
+</html>

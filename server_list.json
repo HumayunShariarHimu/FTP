@@ -1,0 +1,34 @@
+[
+    {
+        "url":"1.txt",
+        "contributor":"Server1"
+    },
+    {
+        "url":"2.txt",
+        "contributor":"Server2"
+    },
+    {
+        "url":"3.txt",
+        "contributor":"Server3"
+    },
+    {
+        "url":"4.txt",
+        "contributor":"Server4"
+    },
+    {
+        "url":"5.txt",
+        "contributor":"Server5"
+    },
+    {
+        "url":"6.txt",
+        "contributor":"Server6"
+    },
+    {
+        "url":"7.txt",
+        "contributor":"Server7"
+    },
+    {
+        "url":"MosterFTP.txt",
+        "contributor":"MosterFTP"
+    }
+]
