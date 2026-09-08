@@ -4,42 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BDIX Scanner</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- আধুনিক ফন্টের জন্য Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --danger: #EF4444;
+            --danger-hover: #DC2626;
+            --bg-color: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .app-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* হেডার ডিজাইন */
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* প্রোগ্রেস সেকশন */
+        .progress-section {
+            background: #F9FAFB;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        #elapsedTime {
+            color: var(--text-muted);
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #E5E7EB;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+        }
+        #loading-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        #currentUrl {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* কন্ট্রোল প্যানেল */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .control-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        input[type="number"], select {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus, select:focus {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            height: 100%;
+            padding-top: 1.5rem;
+        }
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* বাটন ডিজাইন */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        button {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #startStopBtn {
+            background-color: var(--primary);
+            color: white;
+        }
+        #startStopBtn:hover {
+            background-color: var(--primary-hover);
+        }
+        #resetBtn {
+            background-color: #FEE2E2;
+            color: var(--danger);
+        }
+        #resetBtn:hover {
+            background-color: #FECACA;
+        }
+
+        /* লিস্ট সেকশন */
+        .lists-container {
+            display: flex;
+            gap: 1.5rem;
+            height: 400px;
+        }
+        .list-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #F9FAFB;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .list-header {
+            background: var(--card-bg);
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        ul li {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* আধুনিক স্ক্রলবার */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+
+        /* মোবাইল রেসপন্সিভ */
+        @media (max-width: 600px) {
+            .lists-container {
+                flex-direction: column;
+                height: 600px;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
- <center><h1>BDIX Scanner</h1>
-<h3 style="font-size: 13px;">Get the list of possible available BDIX server from your ISP</h3>
-    <div id="loading-bar"></div>
-    <div id="progressValue">0%</div>
-    <div id="currentUrl"></div>
-    <div style="margin-top: 14px;">
-        Request Timeout: <input type="number" value="5" id="timeOutValue"> sec.
+
+    <div class="app-container">
+        <header>
+            <h1>BDIX Scanner</h1>
+            <p>Get the list of possible available BDIX servers from your ISP</p>
+        </header>
+
+        <!-- প্রোগ্রেস ও স্ট্যাটাস -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span id="progressValue">0%</span>
+                <span id="elapsedTime">00:00:00</span>
+            </div>
+            <div class="progress-bar-container">
+                <div id="loading-bar"></div>
+            </div>
+            <div id="currentUrl">Ready to scan...</div>
+        </div>
+
+        <!-- সেটিংস ও কন্ট্রোলস -->
+        <div class="controls-grid">
+            <div class="control-group">
+                <label for="timeOutValue">Request Timeout (sec):</label>
+                <input type="number" value="5" id="timeOutValue">
+            </div>
+            
+            <div class="control-group">
+                <label for="serverList">Select Server List:</label>
+                <select id="serverList">
+                    <option value="" disabled selected>Loading servers...</option>
+                    <!-- Options will be populated here by script -->
+                </select>
+            </div>
+
+            <div class="control-group checkbox-group">
+                <input type="checkbox" id="autoscroll" checked>
+                <label for="autoscroll">Autoscroll Results</label>
+            </div>
+        </div>
+
+        <!-- অ্যাকশন বাটন -->
+        <div class="button-group">
+            <button id="startStopBtn" onclick="startScanning()">Start Scan</button>
+            <button id="resetBtn" onclick="resetScanning()">Reset</button>
+        </div>
+
+        <!-- স্ক্যান করা সার্ভার লিস্ট -->
+        <div class="lists-container">
+            <div class="list-box">
+                <div class="list-header">All Scanned Servers</div>
+                <ul id="urlList">
+                    <!-- URLs will be populated here -->
+                </ul>
+            </div>
+            <div class="list-box">
+                <div class="list-header" style="color: #059669;">Working Servers ⚡</div>
+                <ul id="urlList2">
+                    <!-- Working URLs will be populated here -->
+                </ul>
+            </div>
+        </div>
     </div>
-    <div style="margin-top: 10px;">
-        <label for="autoscroll">Autoscroll:</label>
-        <input type="checkbox" id="autoscroll" checked>
-        <!-- Set to checked by default -->
-        <button id="startStopBtn" onclick="startScanning()">Start</button>
-        <button id="resetBtn" onclick="resetScanning()">Reset</button>
-        <span id="elapsedTime">00:00:00</span>
-    </div>
-    <div style="margin-top: 10px;">
-        <label for="serverList">Select Server List:</label>
-        <select id="serverList">
-            <!-- Options will be populated here -->
-        </select>
-    </div>
-    <div style="width: 49%; display: inline-block;">
-        <ul id="urlList" style="overflow: scroll; height: 35em; border: 1px solid; overflow-x: auto;">
-            <!-- URLs will be populated here -->
-        </ul>
-    </div>
-    <div style="width: 49%; display: inline-block;">
-        <ul id="urlList2" style="overflow: scroll; height: 35em; border: 1px solid; overflow-x: auto;">
-            <!-- URLs will be populated here -->
-        </ul>
-    </div>
+
+    <!-- আপনার আগের জাভাস্ক্রিপ্ট ফাইলটি কল করা হচ্ছে -->
     <script src="script.js"></script>
-</center>
+
 </body> 
-</html>
+                    </html>
